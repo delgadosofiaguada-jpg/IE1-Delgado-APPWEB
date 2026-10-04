@@ -1,0 +1,436 @@
+/* =========================================================
+   Parcial 1 - Tema 2: Posicionamiento CSS y z-index
+   Alumna: Sofia Guadalupe Delgado - Aplicaciones Web I
+   ========================================================= */
+
+/* ---------- Variables y reseteo ---------- */
+:root {
+    --celeste: #7cc4ec;
+    --azul: #2a7db5;
+    --azul-oscuro: #1b4f73;
+    --fondo-suave: #eaf5fc;
+    --texto: #222;
+    --error: #b3261e;
+}
+
+* {
+    box-sizing: border-box; /* padding y borde se incluyen en el ancho */
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem; /* evita que la barra sticky tape el título al navegar */
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: var(--texto);
+    background: #fff;
+}
+
+code {
+    background: var(--fondo-suave);
+    padding: 0 0.3em;
+    border-radius: 3px;
+}
+
+/* ---------- Enlace de salto (accesibilidad) ---------- */
+.salto {
+    position: absolute;  /* sale del flujo, se ubica respecto del viewport inicial */
+    top: -4rem;          /* oculto fuera de pantalla... */
+    left: 1rem;
+    z-index: 2000;
+    padding: 0.5rem 1rem;
+    background: var(--azul-oscuro);
+    color: #fff;
+}
+.salto:focus {
+    top: 0.5rem;         /* ...y visible cuando recibe el foco del teclado */
+}
+
+/* =========================================================
+   POSITION: STICKY -> barra de navegación
+   ========================================================= */
+.barra {
+    position: sticky;    /* se comporta como relative hasta llegar al umbral... */
+    top: 0;              /* ...umbral: al tocar el borde superior, queda fijo */
+    z-index: 100;        /* queda por encima del contenido que pasa por debajo */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--celeste);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.barra__titulo {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--azul-oscuro);
+}
+
+.barra__menu {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.barra__menu a {
+    color: var(--azul-oscuro);
+    font-weight: bold;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--azul-oscuro);
+    outline-offset: 2px;
+}
+
+/* ---------- Estructura general ---------- */
+.etiqueta-parte {
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    color: var(--azul);
+}
+.seccion {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+}
+
+h2 {
+    color: var(--azul);
+}
+
+/* =========================================================
+   PARTE 2 (CSS) - 2.1 POSICIONAMIENTO: ANTES (static) vs DESPUÉS (relative/absolute)
+   ========================================================= */
+.comparacion {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+}
+
+.demo {
+    padding: 1rem;
+    border: 2px solid var(--celeste);
+    border-radius: 8px;
+}
+
+.demo h3 {
+    margin-top: 0;
+    font-size: 1rem;
+}
+
+.demo__area {
+    background: var(--fondo-suave);
+    padding: 0.5rem;
+}
+
+.caja {
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+    background: var(--azul);
+    color: #fff;
+    border-radius: 4px;
+}
+
+/* static: valor por defecto. Aquí top y left NO tienen efecto. */
+.caja--b {
+    position: static;
+    top: 20px;
+    left: 40px;
+}
+
+/* El contenedor es relative: pasa a ser el bloque contenedor de la insignia */
+.demo__area--contenedor {
+    position: relative;
+}
+
+/* relative: se mueve 20px abajo y 40px a la derecha desde su posición original.
+   Su hueco original se conserva, por eso A y C no se reacomodan. */
+.caja--relativa {
+    position: relative;
+    top: 20px;
+    left: 40px;
+    background: var(--azul-oscuro);
+}
+
+/* absolute: sale del flujo y se ubica respecto del ancestro posicionado
+   más cercano (.demo__area--contenedor). No ocupa espacio. */
+.insignia {
+    position: absolute;
+    top: -0.75rem;
+    right: 0.5rem;
+    padding: 0.1rem 0.6rem;
+    background: var(--celeste);
+    color: var(--azul-oscuro);
+    font-weight: bold;
+    border-radius: 999px;
+}
+
+.lista-valores {
+    margin-top: 1.5rem;
+}
+
+/* =========================================================
+   PARTE 2 (CSS) - 2.2 APILAMIENTO: z-index
+   ========================================================= */
+.capas {
+    position: relative;   /* contenedor de las capas absolute */
+    height: 9rem;
+}
+
+.capa {
+    position: absolute;   /* z-index solo funciona en elementos posicionados */
+    width: 8.5rem;
+    height: 5rem;
+    padding: 0.4rem;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border: 2px solid #fff;
+    border-radius: 8px;
+}
+
+/* Posición y color de cada capa (iguales en las dos demos) */
+.capa--a { top: 0;      left: 0;    background: #2a7db5; }
+.capa--b { top: 1.25rem; left: 3rem; background: #1b4f73; }
+.capa--c { top: 2.5rem;  left: 6rem; background: #4a9fd0; }
+
+/* ANTES: sin z-index (auto). Se pinta en orden del HTML, el último queda arriba. */
+.capa--sin { z-index: auto; }
+
+/* DESPUÉS: con z-index. Gana el valor más alto, sin importar el orden del HTML. */
+.capa--con-a { z-index: 3; }
+.capa--con-b { z-index: 2; }
+.capa--con-c { z-index: 1; }
+
+.nota {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: #444;
+}
+
+/* Etiqueta sin vincular: parece una etiqueta pero es un párrafo común */
+.falsa-etiqueta {
+    margin: 0 0 0.3rem;
+    font-weight: bold;
+}
+
+.comparacion--etiquetas {
+    margin-bottom: 1.5rem;
+}
+.comparacion--etiquetas input {
+    width: 100%;
+}
+
+/* Contexto de apilamiento:
+   .padre--bajo (z-index 1) crea su propio contexto. Su hijo con z-index 9999
+   solo compite DENTRO de ese contexto, así que queda debajo de .padre--alto. */
+.contextos {
+    position: relative;
+    height: 8rem;
+    margin-bottom: 1.5rem;
+}
+
+.padre {
+    position: absolute;
+    width: 14rem;
+    height: 5rem;
+    padding: 0.5rem;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.padre--bajo { top: 0;    left: 0;    z-index: 1; background: var(--azul); }
+.padre--alto { top: 3rem; left: 7rem; z-index: 2; background: var(--azul-oscuro); }
+
+.hijo {
+    position: absolute;
+    top: 2.5rem;
+    left: 3.5rem;
+    z-index: 9999;        /* alto, pero atrapado en el contexto del padre */
+    width: 12rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--celeste);
+    color: var(--azul-oscuro);
+    border-radius: 6px;
+}
+
+/* =========================================================
+   POSITION: FIXED -> botón flotante
+   ========================================================= */
+.flotante {
+    position: fixed;      /* se ancla al viewport: no se mueve al hacer scroll */
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 200;         /* sobre el contenido, bajo la modal (1000) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: var(--azul);
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+    border-radius: 50%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+.flotante:hover {
+    background: var(--azul-oscuro);
+}
+
+/* =========================================================
+   VENTANA MODAL: fixed + z-index más alto
+   Oculta por defecto; se muestra cuando la URL apunta a #modal
+   ========================================================= */
+.modal {
+    position: fixed;      /* cubre todo el viewport */
+    inset: 0;             /* top, right, bottom y left = 0 */
+    z-index: 1000;        /* la capa más alta de la página */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+}
+.modal:target {
+    display: flex;
+}
+
+.modal__caja {
+    max-width: 24rem;
+    margin: 1rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+}
+
+/* =========================================================
+   PARTE 1 (HTML): FORMULARIO ACCESIBLE
+   (aquí el CSS solo da estilo; lo importante está en el HTML)
+   ========================================================= */
+.formulario {
+    display: grid;
+    gap: 1.1rem;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    padding: 0.6rem;
+    font: inherit;
+    border: 2px solid #8aa6ba;
+    border-radius: 6px;
+}
+
+.ayuda {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* Mensajes de error: ocultos hasta que el campo es inválido.
+   role="alert" hace que el lector de pantalla los anuncie al aparecer. */
+.error {
+    display: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--error);
+}
+
+/* :user-invalid solo se activa después de que la persona interactúa */
+input:user-invalid,
+select:user-invalid,
+textarea:user-invalid {
+    border-color: var(--error);
+    background: #fff5f4;
+}
+
+.campo:has(:user-invalid) .error {
+    display: block;
+}
+
+.campo--check {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+.campo--check .error {
+    grid-column: 1 / -1;
+}
+.campo--check input {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.boton {
+    display: inline-block;
+    justify-self: start;
+    padding: 0.7rem 1.4rem;
+    background: var(--azul);
+    color: #fff;
+    font: inherit;
+    font-weight: bold;
+    text-decoration: none;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.boton:hover {
+    background: var(--azul-oscuro);
+}
+
+/* Mensaje de éxito: oculto hasta que la URL termina en #exito */
+.exito {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #e6f6ea;
+    border-left: 5px solid #2e7d32;
+    font-weight: bold;
+}
+.exito:target {
+    display: block;
+}
+
+/* Texto solo para lectores de pantalla (oculto visualmente) */
+.solo-lectores {
+    position: absolute;   /* fuera del flujo, no ocupa lugar */
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.pie {
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--fondo-suave);
+    color: var(--azul-oscuro);
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcial 1 - Tema 2 | Formularios accesibles y posicionamiento CSS</title>
+    <link rel="stylesheet" href="./estilos/estilos.css">
+</head>
+<body>
+
+    <!-- Enlace de salto: primer elemento enfocable con teclado (WCAG 2.4.1) -->
+    <a class="salto" href="#contenido">Saltar al contenido</a>
+
+    <!-- BARRA STICKY: se queda pegada arriba al hacer scroll (ver estilos.css) -->
+    <header class="barra">
+        <h1 class="barra__titulo">Parcial 1 · Tema 2</h1>
+        <nav aria-label="Principal">
+            <ul class="barra__menu">
+                <li><a href="#contacto">Parte 1: HTML (formulario)</a></li>
+                <li><a href="#posicionamiento">Parte 2: CSS (posicionamiento)</a></li>
+                <li><a href="#apilamiento">z-index</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="contenido">
+
+        <!-- ============ PARTE 1 (HTML): FORMULARIO ACCESIBLE ============ -->
+        <section id="contacto" class="seccion">
+            <p class="etiqueta-parte">Parte 1 · HTML</p>
+            <h2>Formulario de contacto accesible</h2>
+            <p>Los campos marcados con <span aria-hidden="true">*</span><span class="solo-lectores">asterisco</span> son obligatorios.</p>
+
+            <!-- COMPARACIÓN ANTES vs DESPUÉS: etiqueta sin vincular vs vinculada -->
+            <div class="comparacion comparacion--etiquetas">
+                <div class="demo">
+                    <h3>Sin vincular (incorrecto)</h3>
+                    <!-- Un texto cualquiera: no está asociado al campo -->
+                    <p class="falsa-etiqueta">Nombre</p>
+                    <input type="text" name="demo1">
+                    <p class="nota">Hacé clic en «Nombre»: no pasa nada. El lector de pantalla no sabe qué pide el campo.</p>
+                </div>
+                <div class="demo">
+                    <h3>Vinculada (correcto)</h3>
+                    <label for="demo2">Nombre</label>
+                    <input type="text" id="demo2" name="demo2">
+                    <p class="nota">Hacé clic en «Nombre»: el cursor entra al campo. El lector anuncia «Nombre».</p>
+                </div>
+            </div>
+
+            <!--
+                action: destino de los datos (aquí el mismo documento, #exito).
+                method: verbo HTTP. GET envía los datos en la URL.
+            -->
+            <form class="formulario" action="#exito" method="get">
+
+                <div class="campo">
+                    <!-- for="nombre" se vincula con id="nombre": el lector anuncia la etiqueta -->
+                    <label for="nombre">Nombre y apellido *</label>
+                    <!-- name="nombre": clave con la que se envía el valor -->
+                    <input type="text" id="nombre" name="nombre" autocomplete="name"
+                           required aria-describedby="ayuda-nombre error-nombre">
+                    <span id="ayuda-nombre" class="ayuda">Ejemplo: Ana Pérez</span>
+                    <span id="error-nombre" class="error" role="alert">Ingresá tu nombre.</span>
+                </div>
+
+                <div class="campo">
+                    <label for="email">Correo electrónico *</label>
+                    <input type="email" id="email" name="email" autocomplete="email"
+                           required aria-describedby="error-email">
+                    <span id="error-email" class="error" role="alert">Ingresá un correo válido, por ejemplo nombre@dominio.com.</span>
+                </div>
+
+                <div class="campo">
+                    <label for="motivo">Motivo de la consulta *</label>
+                    <select id="motivo" name="motivo" required aria-describedby="error-motivo">
+                        <option value="">Elegí una opción</option>
+                        <option value="consulta">Consulta general</option>
+                        <option value="soporte">Soporte</option>
+                        <option value="sugerencia">Sugerencia</option>
+                    </select>
+                    <span id="error-motivo" class="error" role="alert">Elegí un motivo.</span>
+                </div>
+
+                <div class="campo">
+                    <label for="mensaje">Mensaje *</label>
+                    <textarea id="mensaje" name="mensaje" rows="5" minlength="10"
+                              required aria-describedby="error-mensaje"></textarea>
+                    <span id="error-mensaje" class="error" role="alert">Escribí un mensaje de al menos 10 caracteres.</span>
+                </div>
+
+                <div class="campo campo--check">
+                    <input type="checkbox" id="acepto" name="acepto" value="si"
+                           required aria-describedby="error-acepto">
+                    <label for="acepto">Acepto la <a href="#modal">política de privacidad</a> *</label>
+                    <span id="error-acepto" class="error" role="alert">Tenés que aceptar para continuar.</span>
+                </div>
+
+                <button type="submit" class="boton">Enviar consulta</button>
+            </form>
+
+            <!-- Mensaje de éxito: aparece al enviar (la URL termina en #exito) -->
+            <p id="exito" class="exito" role="status">¡Gracias! Tu consulta fue enviada.</p>
+        </section>
+
+        <!-- ============ PARTE 2.1 (CSS): POSICIONAMIENTO ============ -->
+        <section id="posicionamiento" class="seccion">
+            <p class="etiqueta-parte">Parte 2 · CSS</p>
+            <h2>Posicionamiento: comportamiento por defecto vs. modificado</h2>
+            <p>Las dos cajas azules son idénticas en HTML. Solo cambia la regla <code>position</code> de la segunda.</p>
+
+            <div class="comparacion">
+
+                <!-- ANTES: position static (valor por defecto) -->
+                <article class="demo">
+                    <h3>Por defecto: <code>static</code></h3>
+                    <div class="demo__area">
+                        <div class="caja">Caja A</div>
+                        <div class="caja caja--b">Caja B (static: ignora top/left)</div>
+                        <div class="caja">Caja C</div>
+                    </div>
+                </article>
+
+                <!-- DESPUÉS: relative + absolute -->
+                <article class="demo">
+                    <h3>Modificado: <code>relative</code> y <code>absolute</code></h3>
+                    <div class="demo__area demo__area--contenedor">
+                        <div class="caja">Caja A</div>
+                        <div class="caja caja--b caja--relativa">Caja B (relative: se desplaza, conserva su hueco)</div>
+                        <div class="caja">Caja C</div>
+                        <span class="insignia">absolute</span>
+                    </div>
+                </article>
+
+            </div>
+
+            <ul class="lista-valores">
+                <li><code>static</code>: flujo normal (por defecto).</li>
+                <li><code>relative</code>: se desplaza y conserva su espacio; es el bloque contenedor de la insignia.</li>
+                <li><code>absolute</code>: sale del flujo y se ubica respecto del ancestro posicionado.</li>
+                <li><code>fixed</code>: botón flotante abajo a la derecha, anclado al viewport.</li>
+                <li><code>sticky</code>: la barra superior de esta página.</li>
+            </ul>
+        </section>
+
+        <!-- ============ PARTE 2.2 (CSS): APILAMIENTO (z-index) ============ -->
+        <section id="apilamiento" class="seccion">
+            <h2>Apilamiento con <code>z-index</code> y componentes</h2>
+            <p>Las mismas tres capas, en el mismo orden en el HTML (A, B, C). Solo cambia el uso de <code>z-index</code>.</p>
+
+            <div class="comparacion">
+
+                <!-- ANTES: sin z-index, gana el último elemento del HTML -->
+                <article class="demo">
+                    <h3>Por defecto: sin <code>z-index</code></h3>
+                    <div class="capas">
+                        <div class="capa capa--a capa--sin">Capa A</div>
+                        <div class="capa capa--b capa--sin">Capa B</div>
+                        <div class="capa capa--c capa--sin">Capa C</div>
+                    </div>
+                    <p class="nota">Se apilan según el orden del HTML: C queda arriba.</p>
+                </article>
+
+                <!-- DESPUÉS: con z-index, gana el valor más alto -->
+                <article class="demo">
+                    <h3>Modificado: con <code>z-index</code></h3>
+                    <div class="capas">
+                        <div class="capa capa--a capa--con-a">A: 3</div>
+                        <div class="capa capa--b capa--con-b">B: 2</div>
+                        <div class="capa capa--c capa--con-c">C: 1</div>
+                    </div>
+                    <p class="nota">Valores de z-index: A = 3, B = 2, C = 1. Gana el más alto: ahora A queda arriba.</p>
+                </article>
+
+            </div>
+
+            <p>Contexto de apilamiento: el <code>z-index: 9999</code> del hijo no supera al padre que tiene un <code>z-index</code> menor, porque queda aislado dentro del padre.</p>
+
+            <div class="contextos">
+                <div class="padre padre--bajo">
+                    Padre (z-index: 1)
+                    <div class="hijo">Hijo (z-index: 9999)</div>
+                </div>
+                <div class="padre padre--alto">Padre (z-index: 2)</div>
+            </div>
+
+            <!-- COMPONENTES: la barra sticky (arriba), el botón fixed (abajo a la derecha) y la modal (este botón) -->
+            <!-- Abre la ventana modal (se muestra con :target, sin JavaScript) -->
+            <p><a class="boton" href="#modal">Abrir ventana modal</a></p>
+        </section>
+
+    </main>
+
+    <footer class="pie">
+        <p>Sofia Guadalupe Delgado · Aplicaciones Web I · Parcial N° 1</p>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE: position fixed (ver estilos.css) -->
+    <a class="flotante" href="#contacto" aria-label="Ir al formulario de contacto">✉</a>
+
+    <!-- VENTANA MODAL: position fixed + z-index alto; se activa con :target -->
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+        <div class="modal__caja">
+            <h2 id="modal-titulo">Política de privacidad</h2>
+            <p>Los datos enviados en este formulario se usan solo con fines demostrativos del parcial.</p>
+            <a class="boton" href="#contenido">Cerrar</a>
+        </div>
+    </div>
+
+</body>
+</html>
