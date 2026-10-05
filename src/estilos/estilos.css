@@ -1,58 +1,40 @@
-/* =========================================================
+/*
    Parcial 1 - Tema 2: Posicionamiento CSS y z-index
    Alumna: Sofia Guadalupe Delgado - Aplicaciones Web I
-   ========================================================= */
+*/
 
-/* ---------- Variables y reseteo ---------- */
-:root {
-    --celeste: #7cc4ec;
-    --azul: #2a7db5;
-    --azul-oscuro: #1b4f73;
-    --fondo-suave: #eaf5fc;
-    --texto: #222;
-    --error: #b3261e;
-}
-
+/* ---------- Reseteo ---------- */
 * {
     box-sizing: border-box; /* padding y borde se incluyen en el ancho */
 }
 
 html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem; /* evita que la barra sticky tape el título al navegar */
+    scroll-padding-top: 4rem; /* evita que la barra sticky tape el título al navegar */
 }
 
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
-    color: var(--texto);
-    background: #fff;
+    line-height: 1.5;
 }
 
-code {
-    background: var(--fondo-suave);
-    padding: 0 0.3em;
-    border-radius: 3px;
-}
-
-/* ---------- Enlace de salto (accesibilidad) ---------- */
+/* Enlace de salto (accesibilidad) */
 .salto {
     position: absolute;  /* sale del flujo, se ubica respecto del viewport inicial */
     top: -4rem;          /* oculto fuera de pantalla... */
     left: 1rem;
     z-index: 2000;
     padding: 0.5rem 1rem;
-    background: var(--azul-oscuro);
-    color: #fff;
+    background: #fff;
+    border: 1px solid #000;
 }
 .salto:focus {
     top: 0.5rem;         /* ...y visible cuando recibe el foco del teclado */
 }
 
-/* =========================================================
+/*
    POSITION: STICKY -> barra de navegación
-   ========================================================= */
+*/
 .barra {
     position: sticky;    /* se comporta como relative hasta llegar al umbral... */
     top: 0;              /* ...umbral: al tocar el borde superior, queda fijo */
@@ -61,62 +43,34 @@ code {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 0.5rem 1rem;
-    padding: 0.75rem 1.5rem;
-    background: var(--celeste);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 1rem;
+    background: #eee;
+    border-bottom: 1px solid #000;
 }
 
 .barra__titulo {
     margin: 0;
     font-size: 1.2rem;
-    color: var(--azul-oscuro);
 }
 
 .barra__menu {
     display: flex;
-    gap: 1.25rem;
+    gap: 1rem;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.barra__menu a {
-    color: var(--azul-oscuro);
-    font-weight: bold;
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-    outline: 3px solid var(--azul-oscuro);
-    outline-offset: 2px;
-}
-
 /* ---------- Estructura general ---------- */
-.etiqueta-parte {
-    margin: 0;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.85rem;
-    color: var(--azul);
-}
 .seccion {
     max-width: 52rem;
     margin: 0 auto;
-    padding: 2rem 1.25rem;
+    padding: 2rem 1rem;
 }
 
-h2 {
-    color: var(--azul);
-}
-
-/* =========================================================
+/*
    PARTE 2 (CSS) - 2.1 POSICIONAMIENTO: ANTES (static) vs DESPUÉS (relative/absolute)
-   ========================================================= */
+*/
 .comparacion {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -125,26 +79,19 @@ h2 {
 
 .demo {
     padding: 1rem;
-    border: 2px solid var(--celeste);
-    border-radius: 8px;
-}
-
-.demo h3 {
-    margin-top: 0;
-    font-size: 1rem;
+    border: 1px solid #000;
 }
 
 .demo__area {
-    background: var(--fondo-suave);
     padding: 0.5rem;
+    border: 1px dashed #000;
 }
 
 .caja {
     margin-bottom: 0.5rem;
     padding: 0.75rem;
-    background: var(--azul);
-    color: #fff;
-    border-radius: 4px;
+    background: #ddd;
+    border: 1px solid #000;
 }
 
 /* static: valor por defecto. Aquí top y left NO tienen efecto. */
@@ -165,7 +112,7 @@ h2 {
     position: relative;
     top: 20px;
     left: 40px;
-    background: var(--azul-oscuro);
+    background: #bbb;
 }
 
 /* absolute: sale del flujo y se ubica respecto del ancestro posicionado
@@ -174,20 +121,14 @@ h2 {
     position: absolute;
     top: -0.75rem;
     right: 0.5rem;
-    padding: 0.1rem 0.6rem;
-    background: var(--celeste);
-    color: var(--azul-oscuro);
-    font-weight: bold;
-    border-radius: 999px;
+    padding: 0 0.5rem;
+    background: #fff;
+    border: 1px solid #000;
 }
 
-.lista-valores {
-    margin-top: 1.5rem;
-}
-
-/* =========================================================
+/*
    PARTE 2 (CSS) - 2.2 APILAMIENTO: z-index
-   ========================================================= */
+*/
 .capas {
     position: relative;   /* contenedor de las capas absolute */
     height: 9rem;
@@ -198,17 +139,13 @@ h2 {
     width: 8.5rem;
     height: 5rem;
     padding: 0.4rem;
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: bold;
-    border: 2px solid #fff;
-    border-radius: 8px;
+    border: 1px solid #000;
 }
 
-/* Posición y color de cada capa (iguales en las dos demos) */
-.capa--a { top: 0;      left: 0;    background: #2a7db5; }
-.capa--b { top: 1.25rem; left: 3rem; background: #1b4f73; }
-.capa--c { top: 2.5rem;  left: 6rem; background: #4a9fd0; }
+/* Posición de cada capa (igual en las dos demos) y un gris distinto para distinguirlas */
+.capa--a { top: 0;       left: 0;    background: #eee; }
+.capa--b { top: 1.25rem; left: 3rem; background: #ccc; }
+.capa--c { top: 2.5rem;  left: 6rem; background: #aaa; }
 
 /* ANTES: sin z-index (auto). Se pinta en orden del HTML, el último queda arriba. */
 .capa--sin { z-index: auto; }
@@ -221,7 +158,6 @@ h2 {
 .nota {
     margin: 0.5rem 0 0;
     font-size: 0.85rem;
-    color: #444;
 }
 
 /* Etiqueta sin vincular: parece una etiqueta pero es un párrafo común */
@@ -251,13 +187,11 @@ h2 {
     width: 14rem;
     height: 5rem;
     padding: 0.5rem;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 8px;
+    border: 1px solid #000;
 }
 
-.padre--bajo { top: 0;    left: 0;    z-index: 1; background: var(--azul); }
-.padre--alto { top: 3rem; left: 7rem; z-index: 2; background: var(--azul-oscuro); }
+.padre--bajo { top: 0;    left: 0;    z-index: 1; background: #eee; }
+.padre--alto { top: 3rem; left: 7rem; z-index: 2; background: #aaa; }
 
 .hijo {
     position: absolute;
@@ -266,39 +200,28 @@ h2 {
     z-index: 9999;        /* alto, pero atrapado en el contexto del padre */
     width: 12rem;
     padding: 0.25rem 0.5rem;
-    background: var(--celeste);
-    color: var(--azul-oscuro);
-    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #000;
 }
 
-/* =========================================================
+/*
    POSITION: FIXED -> botón flotante
-   ========================================================= */
+*/
 .flotante {
     position: fixed;      /* se ancla al viewport: no se mueve al hacer scroll */
-    right: 1.25rem;
-    bottom: 1.25rem;
+    right: 1rem;
+    bottom: 1rem;
     z-index: 200;         /* sobre el contenido, bajo la modal (1000) */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3.5rem;
-    height: 3.5rem;
-    background: var(--azul);
-    color: #fff;
-    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border: 1px solid #000;
     text-decoration: none;
-    border-radius: 50%;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
-}
-.flotante:hover {
-    background: var(--azul-oscuro);
 }
 
-/* =========================================================
+/*
    VENTANA MODAL: fixed + z-index más alto
    Oculta por defecto; se muestra cuando la URL apunta a #modal
-   ========================================================= */
+*/
 .modal {
     position: fixed;      /* cubre todo el viewport */
     inset: 0;             /* top, right, bottom y left = 0 */
@@ -306,7 +229,7 @@ h2 {
     display: none;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.5);
 }
 .modal:target {
     display: flex;
@@ -317,16 +240,14 @@ h2 {
     margin: 1rem;
     padding: 1.5rem;
     background: #fff;
-    border-radius: 8px;
 }
 
-/* =========================================================
+/*
    PARTE 1 (HTML): FORMULARIO ACCESIBLE
-   (aquí el CSS solo da estilo; lo importante está en el HTML)
-   ========================================================= */
+*/
 .formulario {
     display: grid;
-    gap: 1.1rem;
+    gap: 1rem;
 }
 
 .campo {
@@ -342,15 +263,12 @@ label {
 input,
 select,
 textarea {
-    padding: 0.6rem;
+    padding: 0.5rem;
     font: inherit;
-    border: 2px solid #8aa6ba;
-    border-radius: 6px;
 }
 
 .ayuda {
     font-size: 0.85rem;
-    color: #555;
 }
 
 /* Mensajes de error: ocultos hasta que el campo es inválido.
@@ -358,16 +276,14 @@ textarea {
 .error {
     display: none;
     font-size: 0.9rem;
-    font-weight: bold;
-    color: var(--error);
+    color: red;
 }
 
 /* :user-invalid solo se activa después de que la persona interactúa */
 input:user-invalid,
 select:user-invalid,
 textarea:user-invalid {
-    border-color: var(--error);
-    background: #fff5f4;
+    border: 2px solid red;
 }
 
 .campo:has(:user-invalid) .error {
@@ -383,26 +299,13 @@ textarea:user-invalid {
 .campo--check .error {
     grid-column: 1 / -1;
 }
-.campo--check input {
-    width: 1.2rem;
-    height: 1.2rem;
-}
 
 .boton {
     display: inline-block;
     justify-self: start;
-    padding: 0.7rem 1.4rem;
-    background: var(--azul);
-    color: #fff;
+    padding: 0.5rem 1rem;
     font: inherit;
-    font-weight: bold;
-    text-decoration: none;
-    border: 0;
-    border-radius: 6px;
     cursor: pointer;
-}
-.boton:hover {
-    background: var(--azul-oscuro);
 }
 
 /* Mensaje de éxito: oculto hasta que la URL termina en #exito */
@@ -410,9 +313,7 @@ textarea:user-invalid {
     display: none;
     margin-top: 1rem;
     padding: 1rem;
-    background: #e6f6ea;
-    border-left: 5px solid #2e7d32;
-    font-weight: bold;
+    border: 1px solid #000;
 }
 .exito:target {
     display: block;
@@ -429,8 +330,7 @@ textarea:user-invalid {
 }
 
 .pie {
-    padding: 1.5rem;
+    padding: 1rem;
     text-align: center;
-    background: var(--fondo-suave);
-    color: var(--azul-oscuro);
+    border-top: 1px solid #000;
 }
